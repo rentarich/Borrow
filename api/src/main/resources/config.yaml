@@ -1,5 +1,5 @@
 kumuluzee:
-  name: recommendation-system
+  name: borrow-system
   version: 1.0.0
   env:
     name: dev

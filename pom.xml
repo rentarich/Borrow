@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>si.fri.rso.recommendation</groupId>
-    <artifactID>borrow</artifactID>
+    <groupId>si.fri.rso.borrow</groupId>
+    <artifactId>borrow-system</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
@@ -15,8 +15,9 @@
         <module>models</module>
         <module>services</module>
     </modules>
-    <name>Recommendation system</name>
-    <description>Recommendation system.</description>
+
+    <name>borrow system</name>
+    <description>borrow system.</description>
 
     <properties>
         <maven.compiler.source>15</maven.compiler.source>

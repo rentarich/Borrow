@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - image: jp4861/borrow:2021-11-12-23-05-56
-          name: recommendation
+          name: borrow
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
               value: jdbc:postgresql://fanny.db.elephantsql.com:5432/sewztpca
