@@ -1,4 +1,4 @@
-package si.fri.rso.catalog.services.config;
+package si.fri.rso.borrow.services.config;
 
 import com.kumuluz.ee.configuration.cdi.ConfigBundle;
 import com.kumuluz.ee.configuration.cdi.ConfigValue;

@@ -1,14 +1,15 @@
-package si.fri.rso.catalog.models.entities;
+package si.fri.rso.borrow.models.entities;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "items")
+@Table(name = "item")
 @NamedQueries(value =
         {
                 @NamedQuery(name = "ItemEntity.getAll",
                         query = "SELECT im FROM ItemEntity im")
+
         })
 public class ItemEntity {
         @Id

@@ -3,9 +3,9 @@
     <persistence-unit name="item-jpa" transaction-type="JTA">
         <jta-data-source>jdbc/ItemDS</jta-data-source>
 
-        <class>si.fri.rso.catalog.models.entities.ItemEntity</class>
-        <class>si.fri.rso.catalog.models.entities.PersonEntity</class>
-        <class>si.fri.rso.catalog.models.entities.BorrowEntity</class>
+        <class>si.fri.rso.borrow.models.entities.ItemEntity</class>
+        <class>si.fri.rso.borrow.models.entities.PersonEntity</class>
+        <class>si.fri.rso.borrow.models.entities.BorrowEntity</class>
 
         <properties>
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>

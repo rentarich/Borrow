@@ -1,10 +1,15 @@
-package si.fri.rso.catalog.models.entities;
+package si.fri.rso.borrow.models.entities;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "persons")
+@Table(name = "person")
+@NamedQueries(value =
+        {
+                @NamedQuery(name = "Person.getAll", query = "SELECT p FROM PersonEntity p")
+
+        })
 public class PersonEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

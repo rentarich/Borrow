@@ -33,4 +33,4 @@ jobs:
         with:
           file: ./Dockerfile_with_maven_build
           push: true
-          tags: jp4861/catalog:${{ steps.time.outputs.time }}
+          tags: jp4861/borrow:${{ steps.time.outputs.time }}

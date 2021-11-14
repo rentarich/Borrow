@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: catalog-deployment
+  name: borrow-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: catalog
+      app: borrow
   template:
     metadata:
       labels:
-        app: catalog
+        app: borrow
     spec:
       containers:
-        - image: jp4861/catalog:2021-11-12-00-22-38
+        - image: jp4861/borrow:2021-11-12-23-05-56
           name: recommendation
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
@@ -23,7 +23,7 @@ spec:
             - name: KUMULUZEE_DATASOURCES0_PASSWORD
               value: jviqrny5vLJYogFEeyBhAr7daifOAiwB
           ports:
-            - containerPort: 5555
+            - containerPort: 5556
               name: server
               protocol: TCP
 
@@ -33,12 +33,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: catalog
+  name: borrow
 spec:
   type: LoadBalancer
   ports:
-    - port: 5555
+    - port: 5556
       protocol: TCP
       targetPort: server
   selector:
-    app: catalog
+    app: borrow

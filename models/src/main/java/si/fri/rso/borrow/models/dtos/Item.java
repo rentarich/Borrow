@@ -1,4 +1,4 @@
-package si.fri.rso.catalog.models.dtos;
+package si.fri.rso.borrow.models.dtos;
 
 public class Item {
     private Integer id;

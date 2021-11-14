@@ -1,6 +1,4 @@
-package si.fri.rso.catalog.models.entities;
-
-import si.fri.rso.catalog.models.dtos.Item;
+package si.fri.rso.borrow.models.entities;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;

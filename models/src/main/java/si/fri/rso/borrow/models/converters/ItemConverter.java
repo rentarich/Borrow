@@ -1,7 +1,7 @@
-package si.fri.rso.catalog.models.converters;
+package si.fri.rso.borrow.models.converters;
 
-import si.fri.rso.catalog.models.dtos.Item;
-import si.fri.rso.catalog.models.entities.ItemEntity;
+import si.fri.rso.borrow.models.dtos.Item;
+import si.fri.rso.borrow.models.entities.ItemEntity;
 
 public class ItemConverter {
     public static Item toDto(ItemEntity entity) {
