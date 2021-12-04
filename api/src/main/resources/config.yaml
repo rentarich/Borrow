@@ -5,19 +5,19 @@ kumuluzee:
     name: dev
   server:
     base-url: http://localhost:/
-    #base-url: http://prpo-priporocilni-sistem-prpo-priporocilni-sistem.apps.us-west-1.starter.openshift-online.com/v1/priporocila
     http:
       port: 5556
   datasources:
     - jndi-name: jdbc/ItemDS
-#      connection-url: jdbc:postgresql://database:5432/rentarich
-#      connection-url: jdbc:postgresql://localhost:5432/rentarich
-#      username: postgres
-#      password: postgres
       connection-url: jdbc:postgresql://fanny.db.elephantsql.com:5432/sewztpca
       username: sewztpca
       password: jviqrny5vLJYogFEeyBhAr7daifOAiwB
       max-pool-size: 1
+  health:
+    checks:
+      data-source-health-check:
+        type: liveness
+        jndi-name: jdbc/ItemDS
 
 rest-properties:
   maintenance: false

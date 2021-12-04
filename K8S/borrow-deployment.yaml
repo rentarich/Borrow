@@ -13,7 +13,7 @@ spec:
         app: borrow
     spec:
       containers:
-        - image: jp4861/borrow:2021-12-04-19-29-53
+        - image: jp4861/borrow:2021-12-04-23-29-37
 
           name: borrow
           env:
@@ -31,14 +31,14 @@ spec:
             httpGet:
               path: /health/live
               port: server
+            initialDelaySeconds: ost20
+            periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: server
             initialDelaySeconds: 20
             periodSeconds: 3
-            readinessProbe:
-              httpGet:
-                path: /health/ready
-                port: server
-              initialDelaySeconds: 20
-              periodSeconds: 3
 
 
 ---
