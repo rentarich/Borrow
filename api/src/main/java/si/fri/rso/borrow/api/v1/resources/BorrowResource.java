@@ -1,6 +1,9 @@
 package si.fri.rso.borrow.api.v1.resources;
 import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
+import org.eclipse.persistence.internal.sessions.DirectCollectionChangeRecord;
+import si.fri.rso.borrow.models.entities.BorrowEntity;
 import si.fri.rso.borrow.services.beans.BorrowBean;
+import si.fri.rso.borrow.services.beans.PersonBorrowBean;
 import si.fri.rso.borrow.services.config.RestProperties;
 
 
@@ -14,7 +17,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import java.text.ParseException;
+import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 @Path("items")
@@ -30,6 +36,9 @@ public class BorrowResource {
     private BorrowBean borrowBean;
 
     @Inject
+    private PersonBorrowBean personBorrowBean;
+
+    @Inject
     private RestProperties restProperties;
 
     @Context
@@ -43,19 +52,55 @@ public class BorrowResource {
     }
 
     @POST
-    public Response borrowItem() {
-//        List<Item> imageMetadata = itemBean.getItemsFilter(uriInfo);
+    @Path("/{itemId}/{userId}/reserve")
+    public Response borrowItem(@PathParam("itemId") Integer itemId, @PathParam("userId") Integer userId) throws ParseException {
 
-//        return Response.status(Response.Status.OK).entity(imageMetadata).build();
-        return Response.status(Response.Status.OK).build();
+        if ((itemId == null || userId == null)) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        else {
+            // sainity check, itemId should not be already borrowed!
+            List<Integer> items_borrowed = borrowBean.getBorrowedItems().stream().map(borrowed -> borrowed.getId()).collect(Collectors.toList());
+            log.info(items_borrowed.toString());
+            if(items_borrowed.contains(itemId)) {
+                return Response.status(Response.Status.BAD_REQUEST).build();
+            } else {
+                BorrowEntity borrow = personBorrowBean.createPersonReserve(itemId, userId);
+                return Response.status(Response.Status.CREATED).entity(borrow).build();
+            }
+        }
+
     }
 
     @PUT
-    public Response setReturned() {
-        return Response.status(Response.Status.OK).build();
+    @Path("/{itemId}/{userId}/borrow")
+    public Response reserve(@PathParam("itemId") Integer itemId, @PathParam("userId") Integer userId) throws ParseException {
+
+        if ((itemId == null || userId == null)) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+
+        BorrowEntity borrow = personBorrowBean.createPersonBorrow(itemId, userId);
+        if (borrow.getFrom_date() != null) {
+            return Response.status(Response.Status.CREATED).entity(borrow).build();
+        } else {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
     }
 
+    @PUT
+    @Path("/{itemId}/{userId}/return")
+    public Response returnItem(@PathParam("itemId") Integer itemId, @PathParam("userId") Integer userId) throws ParseException {
+        if ((itemId == null || userId == null)) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
 
+        BorrowEntity borrow = personBorrowBean.returnItem(itemId, userId);
+        return Response.status(Response.Status.CREATED).entity(borrow).build();
+
+    }
 
 
 

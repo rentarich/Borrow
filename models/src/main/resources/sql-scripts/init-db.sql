@@ -12,6 +12,6 @@ INSERT INTO person (username, email, role) VALUES ('crazyChica','crazychica@gmai
 INSERT INTO person (username, email, role) VALUES ('crazyChichito','crazychico@gmail.com','user');
 
 
-INSERT INTO borrow (from_date, to_date, id_person,id_item,returned) VALUES ('2021-10-29','2021-10-31',1,9, false);
-INSERT INTO borrow (from_date, to_date, id_person,id_item,returned) VALUES ('2021-10-29','2021-10-31',1,8, true);
-INSERT INTO borrow (from_date, to_date, id_person,id_item,returned) VALUES ('2021-10-29','2021-10-31',2,6, false);
+INSERT INTO borrow (from_date, to_date, id_person,id_item,returned,reserved) VALUES ('2021-10-29','2021-10-31',1,9, false, true);
+INSERT INTO borrow (from_date, to_date, id_person,id_item,returned,reserved) VALUES ('2021-10-29','2021-10-31',1,8, true, true);
+INSERT INTO borrow (from_date, to_date, id_person,id_item,returned,reserved) VALUES ('2021-10-29','2021-10-31',2,6, false, false);

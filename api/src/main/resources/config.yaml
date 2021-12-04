@@ -11,13 +11,13 @@ kumuluzee:
   datasources:
     - jndi-name: jdbc/ItemDS
 #      connection-url: jdbc:postgresql://database:5432/rentarich
-      connection-url: jdbc:postgresql://localhost:5432/rentarich
-      username: postgres
-      password: postgres
-#      connection-url: jdbc:postgresql://fanny.db.elephantsql.com:5432/wuztpoqp
-#      username: wuztpoqp
-#      password: 50Xsd8IBKM6kyELj0WzemRZlOXyHCulg
-#      max-pool-size: 2
+#      connection-url: jdbc:postgresql://localhost:5432/rentarich
+#      username: postgres
+#      password: postgres
+      connection-url: jdbc:postgresql://fanny.db.elephantsql.com:5432/sewztpca
+      username: sewztpca
+      password: jviqrny5vLJYogFEeyBhAr7daifOAiwB
+      max-pool-size: 1
 
 rest-properties:
   maintenance: false
