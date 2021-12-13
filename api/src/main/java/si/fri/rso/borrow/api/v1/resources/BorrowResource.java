@@ -5,8 +5,6 @@ import si.fri.rso.borrow.models.entities.BorrowEntity;
 import si.fri.rso.borrow.services.beans.BorrowBean;
 import si.fri.rso.borrow.services.beans.PersonBorrowBean;
 import si.fri.rso.borrow.services.config.RestProperties;
-
-import org.eclipse.microprofile.health.Liveness;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
