@@ -7,11 +7,5 @@
         <class>si.fri.rso.borrow.models.entities.PersonEntity</class>
         <class>si.fri.rso.borrow.models.entities.BorrowEntity</class>
 
-        <properties>
-            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
-            <property name="javax.persistence.schema-generation.create-source" value="metadata"/>
-            <property name="javax.persistence.sql-load-script-source" value="sql-scripts/init-db.sql"/>
-            <property name="javax.persistence.schema-generation.drop-source" value="metadata"/>
-        </properties>
     </persistence-unit>
 </persistence>
