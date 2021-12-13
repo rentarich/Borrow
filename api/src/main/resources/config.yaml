@@ -13,11 +13,11 @@ kumuluzee:
       username: sewztpca
       password: jviqrny5vLJYogFEeyBhAr7daifOAiwB
       max-pool-size: 1
-#  health:
-#    checks:
-#      data-source-health-check:
-#        type: liveness
-#        jndi-name: jdbc/ItemDS
+  health:
+    checks:
+      data-source-health-check:
+        type: liveness
+        jndi-name: jdbc/ItemDS
 
 rest-properties:
   maintenance: false

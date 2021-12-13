@@ -13,11 +13,11 @@ spec:
         app: borrow
     spec:
       containers:
-        - image: jp4861/borrow:2021-12-14-00-27-08
+        - image: jp4861/borrow:2021-12-14-00-41-21
           name: borrow
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
-              value: jdbc:postgresql://fanny.db.tsql.com:5432/sewztpca
+              value: jdbc:postgresql://fanny.db.elephantsql.com:5432/sewztpca
             - name: KUMULUZEE_DATASOURCES0_USERNAME
               value: sewztpca
             - name: KUMULUZEE_DATASOURCES0_PASSWORD
@@ -26,12 +26,12 @@ spec:
             - containerPort: 5556
               name: server
               protocol: TCP
-#          livenessProbe:
-#            httpGet:
-#              path: /health/live
-#              port: server
-#            initialDelaySeconds: 20
-#            periodSeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: server
+            initialDelaySeconds: 20
+            periodSeconds: 3
 
 
 
