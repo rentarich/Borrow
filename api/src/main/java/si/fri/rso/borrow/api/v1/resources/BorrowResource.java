@@ -1,6 +1,5 @@
 package si.fri.rso.borrow.api.v1.resources;
 import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
-import org.eclipse.persistence.internal.sessions.DirectCollectionChangeRecord;
 import si.fri.rso.borrow.models.entities.BorrowEntity;
 import si.fri.rso.borrow.services.beans.BorrowBean;
 import si.fri.rso.borrow.services.beans.PersonBorrowBean;

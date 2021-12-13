@@ -13,7 +13,7 @@ spec:
         app: borrow
     spec:
       containers:
-        - image: jp4861/borrow:2021-12-13-23-13-28
+        - image: jp4861/borrow:2021-12-13-23-44-47
           name: borrow
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
