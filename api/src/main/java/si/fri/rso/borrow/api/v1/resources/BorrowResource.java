@@ -1,5 +1,9 @@
 package si.fri.rso.borrow.api.v1.resources;
 import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import si.fri.rso.borrow.models.entities.BorrowEntity;
 import si.fri.rso.borrow.services.beans.BorrowBean;
 import si.fri.rso.borrow.services.beans.PersonBorrowBean;
@@ -49,6 +53,14 @@ public class BorrowResource {
     }
 
     @POST
+    @Operation(description = "Add reservation for /{itemid}/{userId}", summary = "Reserving item",
+            tags = "borrow",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Reservation Created.", content = @Content(schema = @Schema(implementation =
+                            BorrowEntity.class))),
+                    @ApiResponse(responseCode = "400", description = "Bad request."),
+
+            })
     @Path("/{itemId}/{userId}/reserve")
     public Response borrowItem(@PathParam("itemId") Integer itemId, @PathParam("userId") Integer userId) throws ParseException {
 
@@ -70,6 +82,14 @@ public class BorrowResource {
     }
 
     @PUT
+    @Operation(description = "Update reservation for /{itemid}/{userId} to status borrowed", summary = "Borrowing item",
+            tags = "borrow",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Borrow Created.", content = @Content(schema = @Schema(implementation =
+                            BorrowEntity.class))),
+                    @ApiResponse(responseCode = "400", description = "Bad request."),
+
+            })
     @Path("/{itemId}/{userId}/borrow")
     public Response reserve(@PathParam("itemId") Integer itemId, @PathParam("userId") Integer userId) throws ParseException {
 
@@ -88,6 +108,14 @@ public class BorrowResource {
     }
 
     @PUT
+    @Operation(description = "Update reservation for /{itemid}/{userId} to status returned", summary = "Returning item",
+            tags = "borrow",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Return Created.", content = @Content(schema = @Schema(implementation =
+                            BorrowEntity.class))),
+                    @ApiResponse(responseCode = "400", description = "Bad request."),
+
+            })
     @Path("/{itemId}/{userId}/return")
     public Response returnItem(@PathParam("itemId") Integer itemId, @PathParam("userId") Integer userId) throws ParseException {
         if ((itemId == null || userId == null)) {

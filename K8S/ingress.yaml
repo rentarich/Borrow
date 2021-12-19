@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: proxyingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /catalog(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: catalog
+                port:
+                  number: 5555
+          - path: /recommendation(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: recommendation
+                port:
+                  number: 3333
+          - path: /borrow(/|$)(.*)
+            pathType: Prefix
+              backend:
+                service:
+                  name: borrow
+                  port:
+                    number: 5556

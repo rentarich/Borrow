@@ -29,10 +29,22 @@
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <kumuluzee-health.version>2.4.2</kumuluzee-health.version>
         <postgresql.version>42.3.0</postgresql.version>
+        <kumuluzee-openapi.version>1.0.1</kumuluzee-openapi.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.kumuluz.ee.openapi</groupId>
+                <artifactId>kumuluzee-openapi</artifactId>
+                <version>${kumuluzee-openapi.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.kumuluz.ee.openapi</groupId>
+                <artifactId>kumuluzee-openapi-ui</artifactId>
+                <version>${kumuluzee-openapi.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.kumuluz.ee.cors</groupId>
                 <artifactId>kumuluzee-cors</artifactId>

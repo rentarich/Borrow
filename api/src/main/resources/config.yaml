@@ -18,6 +18,9 @@ kumuluzee:
       data-source-health-check:
         type: liveness
         jndi-name: jdbc/ItemDS
+  openapi:
+    ui:
+      enabled: true
 
 rest-properties:
   maintenance: false
