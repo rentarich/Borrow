@@ -12,7 +12,7 @@ import javax.persistence.*;
                 @NamedQuery(name = "Borrow.getBorrowForItem", query = "SELECT b FROM Borrow b WHERE b.item = :item"),
                 @NamedQuery(name = "Borrow.getBorrowedItems", query = "SELECT b FROM Borrow b WHERE b.returned = false"),
                 @NamedQuery(name = "Borrow.getReservedOrBorrowedItems", query = "SELECT b FROM Borrow b WHERE b.reserved = true OR b.returned=false"),
-                @NamedQuery(name = "Borrow.getPersonItem", query = "SELECT b FROM Borrow b WHERE b.person = :person AND b.item =:item AND b.reserved =true")
+                @NamedQuery(name = "Borrow.getPersonItem", query = "SELECT b FROM Borrow b WHERE b.person.id = :personid AND b.item.id =:itemid")
         })
 
 public class Borrow {
@@ -78,6 +78,8 @@ public class Borrow {
     public Integer getId() {
         return id;
     }
+
+    public void setId(Integer id){this.id = id;}
 
     public boolean isReturned() {
         return returned;

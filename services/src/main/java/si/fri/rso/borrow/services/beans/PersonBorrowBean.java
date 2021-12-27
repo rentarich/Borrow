@@ -57,9 +57,8 @@ public class PersonBorrowBean {
     }
 
     public Borrow returnItem(Integer itemId, Integer userId) {
-        Person person = personBean.getPerson(userId);
-        Item item = itemBean.getItem(itemId);
-        Borrow entity= borrowBean.returnItem(person,item);
+
+        Borrow entity= borrowBean.returnItem(userId,itemId);
         return entity;
     }
 }

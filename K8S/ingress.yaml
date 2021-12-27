@@ -18,6 +18,13 @@ spec:
                 name: catalog
                 port:
                   number: 5555
+          - path: /userprofile(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: userprofile
+                port:
+                  number: 5560
           - path: /borrow(/|$)(.*)
             pathType: Prefix
             backend:
@@ -25,6 +32,13 @@ spec:
                 name: borrow
                 port:
                   number: 5556
+          - path: /consul(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: consul-consul-server
+                port:
+                  number: 8500
           - path: /recommendation(/|$)(.*)
             pathType: Prefix
             backend:
@@ -32,3 +46,17 @@ spec:
                 name: recommendation
                 port:
                   number: 3333
+          - path: /message(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: message
+                port:
+                  number: 2222
+          - path: /favourites(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: favourites
+                port:
+                  number: 4444

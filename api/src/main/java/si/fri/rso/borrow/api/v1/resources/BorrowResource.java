@@ -1,5 +1,6 @@
 package si.fri.rso.borrow.api.v1.resources;
 import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
+import com.kumuluz.ee.cors.annotations.CrossOrigin;
 import com.kumuluz.ee.logs.LogManager;
 import com.kumuluz.ee.logs.cdi.Log;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
 @Path("items")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@CrossOrigin
 public class BorrowResource {
     private Logger log = Logger.getLogger(BorrowResource.class.getName());
     private com.kumuluz.ee.logs.Logger logger = LogManager.getLogger(BorrowResource.class.getName());
@@ -82,6 +84,7 @@ public class BorrowResource {
             } else {
 
                 Borrow borrow = personBorrowBean.createPersonReserve(itemId, userId);
+
                 logger.info("Successfully borrowed borrowing ITEM with id"+itemId+" for user with id "+userId);
                 return Response.status(Response.Status.CREATED).entity(borrow).build();
             }

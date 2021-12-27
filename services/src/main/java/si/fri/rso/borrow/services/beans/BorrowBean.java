@@ -138,40 +138,53 @@ public class BorrowBean {
     }
 
     @Transactional
-    public Borrow returnItem(Person person, Item item) {
-        List itemEntities = em.createNamedQuery("Borrow.getPersonItem").setParameter("person",person).setParameter("item", item).getResultList();
+    public Borrow returnItem(Integer personid, Integer itemId) {
+
+        List itemEntities = em.createNamedQuery("Borrow.getPersonItem").setParameter("personid",personid).setParameter("itemid", itemId).getResultList();
         log.info(itemEntities.toString());
         logger.info("Retruning item");
         if(itemEntities.size()>0) {
-            Borrow e = (Borrow) itemEntities.get(0);
-            log.info(e.getItem().getId().toString());
-            log.info(e.getPerson().getId().toString());
-            e.setReturned(true);
-            e.setReserved(false);
+            Borrow borrow =null;
+            List<Borrow> e = (List<Borrow>) itemEntities;
+            for (Borrow b :e) {
+                if(!b.isReturned()) {
+                    borrow = b;
+                    log.info(b.getItem().getId().toString());
+                    log.info(b.getPerson().getId().toString());
+                    b.setReturned(true);
+                    b.setReserved(false);
+                    Date date = Calendar.getInstance().getTime();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    String from_date = dateFormat.format(date);
+                    System.out.println("Date before Addition: " + from_date);
+                    //Specifying date format that matches the given date
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    Calendar c = Calendar.getInstance();
+                    try {
+                        //Setting the date to the given date
+                        c.setTime(sdf.parse(from_date));
+                    } catch (ParseException en) {
+                        en.printStackTrace();
+                    }
 
+                    //Number of Days to add
+                    c.add(Calendar.DAY_OF_MONTH, -1);
+                    //Date after adding the days to the given date
+                    String returned_date = sdf.format(c.getTime());
 
-            Date date = Calendar.getInstance().getTime();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String from_date = dateFormat.format(date);
-            System.out.println("Date before Addition: "+from_date);
-            //Specifying date format that matches the given date
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Calendar c = Calendar.getInstance();
-            try{
-                //Setting the date to the given date
-                c.setTime(sdf.parse(from_date));
-            }catch(ParseException en){
-                en.printStackTrace();
+                    b.setTo_date(returned_date);
+                    Borrow borrows = new Borrow();
+                    borrows.setId(b.getId());
+                    borrows.setFrom_date(from_date);
+                    borrows.setTo_date(returned_date);
+                    borrows.setReturned(true);
+                    borrows.setPerson(b.getPerson());
+                    borrows.setItem(b.getItem());
+                    borrows.setReserved(false);
+                    em.merge(borrows);
+                }
             }
-
-            //Number of Days to add
-            c.add(Calendar.DAY_OF_MONTH, -1);
-            //Date after adding the days to the given date
-            String returned_date = sdf.format(c.getTime());
-
-            e.setTo_date(returned_date);
-            em.merge(e);
-            return e;
+            return borrow;
         }
         return new Borrow();
     }
