@@ -7,10 +7,10 @@ import java.util.List;
 @Table(name = "person")
 @NamedQueries(value =
         {
-                @NamedQuery(name = "Person.getAll", query = "SELECT p FROM PersonEntity p")
+                @NamedQuery(name = "Person.getAll", query = "SELECT p FROM Person p")
 
         })
-public class PersonEntity {
+public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -42,11 +42,11 @@ public class PersonEntity {
         this.role = role;
     }
 
-    public List<BorrowEntity> getBorrows() {
+    public List<Borrow> getBorrows() {
         return borrows;
     }
 
-    public void setBorrows(List<BorrowEntity> borrows) {
+    public void setBorrows(List<Borrow> borrows) {
         this.borrows = borrows;
     }
 
@@ -57,7 +57,7 @@ public class PersonEntity {
     private String role;
 
     @OneToMany(fetch = FetchType.EAGER)
-    private List<BorrowEntity> borrows;
+    private List<Borrow> borrows;
 
 
     public Integer getId() {

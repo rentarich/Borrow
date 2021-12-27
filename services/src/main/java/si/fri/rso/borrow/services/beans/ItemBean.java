@@ -1,14 +1,12 @@
 package si.fri.rso.borrow.services.beans;
 
-import si.fri.rso.borrow.models.dtos.Item;
-import si.fri.rso.borrow.models.entities.ItemEntity;
+import si.fri.rso.borrow.models.entities.Item;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -32,8 +30,8 @@ public class ItemBean {
     private EntityManager em;
 
 
-    public ItemEntity getItem(int id) {
-        ItemEntity item = em.find(ItemEntity.class, id);
+    public Item getItem(int id) {
+        Item item = em.find(Item.class, id);
         return item;
     }
 }

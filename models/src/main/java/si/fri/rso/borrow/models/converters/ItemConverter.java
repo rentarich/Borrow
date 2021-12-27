@@ -1,11 +1,11 @@
 package si.fri.rso.borrow.models.converters;
 
-import si.fri.rso.borrow.models.dtos.Item;
-import si.fri.rso.borrow.models.entities.ItemEntity;
+import si.fri.rso.borrow.models.dtos.ItemDTO;
+import si.fri.rso.borrow.models.entities.Item;
 
 public class ItemConverter {
-    public static Item toDto(ItemEntity entity) {
-        Item dto = new Item();
+    public static ItemDTO toDto(Item entity) {
+        ItemDTO dto = new ItemDTO();
         dto.setId(entity.getId());
         dto.setCategory(entity.getCategory());
         dto.setDescription(entity.getDescription());
@@ -14,8 +14,8 @@ public class ItemConverter {
         return dto;
     }
 
-    public static ItemEntity toEntity(Item dto) {
-        ItemEntity entity = new ItemEntity();
+    public static Item toEntity(ItemDTO dto) {
+        Item entity = new Item();
         entity.setId(dto.getId());
         entity.setCategory(dto.getCategory());
         entity.setTitle(dto.getTitle());

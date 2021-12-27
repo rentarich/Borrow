@@ -1,6 +1,6 @@
 package si.fri.rso.borrow.models.dtos;
 
-public class Item {
+public class ItemDTO {
     private Integer id;
 
     public Integer getId() {

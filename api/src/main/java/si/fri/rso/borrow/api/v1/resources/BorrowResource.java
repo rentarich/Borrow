@@ -1,10 +1,12 @@
 package si.fri.rso.borrow.api.v1.resources;
 import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
+import com.kumuluz.ee.logs.LogManager;
+import com.kumuluz.ee.logs.cdi.Log;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import si.fri.rso.borrow.models.entities.BorrowEntity;
+import si.fri.rso.borrow.models.entities.Borrow;
 import si.fri.rso.borrow.services.beans.BorrowBean;
 import si.fri.rso.borrow.services.beans.PersonBorrowBean;
 import si.fri.rso.borrow.services.config.RestProperties;
@@ -24,11 +26,13 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
+@Log
 @Path("items")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class BorrowResource {
     private Logger log = Logger.getLogger(BorrowResource.class.getName());
+    private com.kumuluz.ee.logs.Logger logger = LogManager.getLogger(BorrowResource.class.getName());
     private Client httpClient;
     private String baseUrl;
 
@@ -57,14 +61,15 @@ public class BorrowResource {
             tags = "borrow",
             responses = {
                     @ApiResponse(responseCode = "201", description = "Reservation Created.", content = @Content(schema = @Schema(implementation =
-                            BorrowEntity.class))),
+                            Borrow.class))),
                     @ApiResponse(responseCode = "400", description = "Bad request."),
 
             })
     @Path("/{itemId}/{userId}/reserve")
     public Response borrowItem(@PathParam("itemId") Integer itemId, @PathParam("userId") Integer userId) throws ParseException {
-
+        logger.info("starting borrowing ITEM with id"+itemId+" for user with id "+userId);
         if ((itemId == null || userId == null)) {
+            logger.info("BAD REQUEST;  ITEM with id"+itemId+"already borrowed");
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         else {
@@ -72,9 +77,12 @@ public class BorrowResource {
             List<Integer> items_borrowed = borrowBean.getBorrowedItems().stream().map(borrowed -> borrowed.getId()).collect(Collectors.toList());
             log.info(items_borrowed.toString());
             if(items_borrowed.contains(itemId)) {
+                logger.info("BAD REQUEST;  ITEM with id"+itemId+"already borrowed");
                 return Response.status(Response.Status.BAD_REQUEST).build();
             } else {
-                BorrowEntity borrow = personBorrowBean.createPersonReserve(itemId, userId);
+
+                Borrow borrow = personBorrowBean.createPersonReserve(itemId, userId);
+                logger.info("Successfully borrowed borrowing ITEM with id"+itemId+" for user with id "+userId);
                 return Response.status(Response.Status.CREATED).entity(borrow).build();
             }
         }
@@ -86,7 +94,7 @@ public class BorrowResource {
             tags = "borrow",
             responses = {
                     @ApiResponse(responseCode = "201", description = "Borrow Created.", content = @Content(schema = @Schema(implementation =
-                            BorrowEntity.class))),
+                            Borrow.class))),
                     @ApiResponse(responseCode = "400", description = "Bad request."),
 
             })
@@ -98,7 +106,7 @@ public class BorrowResource {
         }
 
 
-        BorrowEntity borrow = personBorrowBean.createPersonBorrow(itemId, userId);
+        Borrow borrow = personBorrowBean.createPersonBorrow(itemId, userId);
         if (borrow.getFrom_date() != null) {
             return Response.status(Response.Status.CREATED).entity(borrow).build();
         } else {
@@ -112,7 +120,7 @@ public class BorrowResource {
             tags = "borrow",
             responses = {
                     @ApiResponse(responseCode = "201", description = "Return Created.", content = @Content(schema = @Schema(implementation =
-                            BorrowEntity.class))),
+                            Borrow.class))),
                     @ApiResponse(responseCode = "400", description = "Bad request."),
 
             })
@@ -122,7 +130,8 @@ public class BorrowResource {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        BorrowEntity borrow = personBorrowBean.returnItem(itemId, userId);
+        Borrow borrow = personBorrowBean.returnItem(itemId, userId);
+        logger.info("Successfully returned ITEM with id"+itemId+" for user with id "+userId);
         return Response.status(Response.Status.CREATED).entity(borrow).build();
 
     }

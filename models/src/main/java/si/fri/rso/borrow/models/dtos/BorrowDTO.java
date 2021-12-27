@@ -1,4 +1,4 @@
 package si.fri.rso.borrow.models.dtos;
 
-public class Borrow {
+public class BorrowDTO {
 }

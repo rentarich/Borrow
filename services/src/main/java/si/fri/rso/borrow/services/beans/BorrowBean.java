@@ -1,9 +1,11 @@
 package si.fri.rso.borrow.services.beans;
 
 
-import si.fri.rso.borrow.models.entities.BorrowEntity;
-import si.fri.rso.borrow.models.entities.ItemEntity;
-import si.fri.rso.borrow.models.entities.PersonEntity;
+import com.kumuluz.ee.logs.LogManager;
+import com.kumuluz.ee.logs.enums.LogLevel;
+import si.fri.rso.borrow.models.entities.Borrow;
+import si.fri.rso.borrow.models.entities.Item;
+import si.fri.rso.borrow.models.entities.Person;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -20,17 +22,20 @@ import java.util.logging.Logger;
 @ApplicationScoped
 public class BorrowBean {
     private Logger log = Logger.getLogger(BorrowBean.class.getName());
+    private com.kumuluz.ee.logs.Logger logger = LogManager.getLogger(BorrowBean.class.getName());
     private String idBean;
 
     @PostConstruct
     private void init(){
         idBean = UUID.randomUUID().toString();
         log.info("Init bean: " + BorrowBean.class.getSimpleName() + " idBean: " + idBean);
+        logger.info("Init bean: " + BorrowBean.class.getSimpleName() + " idBean: " + idBean);
     }
 
     @PreDestroy
     private void destroy(){
         log.info("Deinit bean: " + BorrowBean.class.getSimpleName() + " idBean: " + idBean);
+        logger.info("Deinit bean: " + BorrowBean.class.getSimpleName() + " idBean: " + idBean);
     }
 
     @PersistenceContext(unitName = "item-jpa")
@@ -40,27 +45,27 @@ public class BorrowBean {
         return em.createNamedQuery("Borrow.getAll").getResultList();
     }
 
-    public List<BorrowEntity> getPersonsBorrows(PersonEntity person) {
-        TypedQuery<BorrowEntity> query= em.createNamedQuery("Borrow.getBorrowForPerson",BorrowEntity.class);
+    public List<Borrow> getPersonsBorrows(Person person) {
+        TypedQuery<Borrow> query= em.createNamedQuery("Borrow.getBorrowForPerson", Borrow.class);
         return query.setParameter("person",person).getResultList();
     }
 
-    public List<BorrowEntity> getItemBorrows(ItemEntity item) {
-        TypedQuery<BorrowEntity> query= em.createNamedQuery("Borrow.getBorrowForItem",BorrowEntity.class);
+    public List<Borrow> getItemBorrows(Item item) {
+        TypedQuery<Borrow> query= em.createNamedQuery("Borrow.getBorrowForItem", Borrow.class);
         return query.setParameter("item",item).getResultList();
     }
 
-    public List<ItemEntity> getBorrowedItems() {
-        TypedQuery<BorrowEntity> query= em.createNamedQuery("Borrow.getReservedOrBorrowedItems",BorrowEntity.class);
-        List<ItemEntity> itemsBor = new ArrayList<>();
-        for (BorrowEntity borrow : query.getResultList()) {
+    public List<Item> getBorrowedItems() {
+        TypedQuery<Borrow> query= em.createNamedQuery("Borrow.getReservedOrBorrowedItems", Borrow.class);
+        List<Item> itemsBor = new ArrayList<>();
+        for (Borrow borrow : query.getResultList()) {
             itemsBor.add(borrow.getItem());
         }
         return itemsBor;
     }
 
     @Transactional
-    public BorrowEntity createItem(BorrowEntity borrowEntity) {
+    public Borrow createItem(Borrow borrowEntity) {
 
 
         em.persist(borrowEntity);
@@ -68,9 +73,9 @@ public class BorrowBean {
         return borrowEntity;
     }
 
-    public BorrowEntity putItem(boolean returned, BorrowEntity item) {
+    public Borrow putItem(boolean returned, Borrow item) {
 
-        BorrowEntity c = em.find(BorrowEntity.class, item.getId());
+        Borrow c = em.find(Borrow.class, item.getId());
 
         if (c == null) {
             return null;
@@ -83,7 +88,7 @@ public class BorrowBean {
     }
 
     @Transactional
-    public BorrowEntity createReserve(PersonEntity person, ItemEntity item) throws ParseException {
+    public Borrow createReserve(Person person, Item item) throws ParseException {
         Date date = Calendar.getInstance().getTime();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String from_date = dateFormat.format(date);
@@ -97,7 +102,6 @@ public class BorrowBean {
         }catch(ParseException e){
             e.printStackTrace();
         }
-
         //Number of Days to add
         c.add(Calendar.DAY_OF_MONTH, 14);
         //Date after adding the days to the given date
@@ -105,10 +109,10 @@ public class BorrowBean {
 
 
 
-        BorrowEntity borrow = new BorrowEntity();
+        Borrow borrow = new Borrow();
         borrow.setFrom_date(from_date);
         borrow.setTo_date(returned_date);
-        borrow.setReturned(true);
+        borrow.setReturned(false);
         borrow.setPerson(person);
         borrow.setItem(item);
         borrow.setReserved(true);
@@ -119,26 +123,27 @@ public class BorrowBean {
     }
 
     @Transactional
-    public BorrowEntity borrow(PersonEntity person, ItemEntity item) {
+    public Borrow borrow(Person person, Item item) {
         List itemEntities = em.createNamedQuery("Borrow.getPersonItem").setParameter("person",person).setParameter("item", item).getResultList();
         if(itemEntities.size()>0) {
-            BorrowEntity e = (BorrowEntity) itemEntities.get(0);
+            Borrow e = (Borrow) itemEntities.get(0);
             e.setReturned(false);
             em.merge(e);
             return e;
         }
-        return new BorrowEntity();
+        return new Borrow();
 
 
 
     }
 
     @Transactional
-    public BorrowEntity returnItem(PersonEntity person, ItemEntity item) {
+    public Borrow returnItem(Person person, Item item) {
         List itemEntities = em.createNamedQuery("Borrow.getPersonItem").setParameter("person",person).setParameter("item", item).getResultList();
         log.info(itemEntities.toString());
+        logger.info("Retruning item");
         if(itemEntities.size()>0) {
-            BorrowEntity e = (BorrowEntity) itemEntities.get(0);
+            Borrow e = (Borrow) itemEntities.get(0);
             log.info(e.getItem().getId().toString());
             log.info(e.getPerson().getId().toString());
             e.setReturned(true);
@@ -168,6 +173,6 @@ public class BorrowBean {
             em.merge(e);
             return e;
         }
-        return new BorrowEntity();
+        return new Borrow();
     }
 }

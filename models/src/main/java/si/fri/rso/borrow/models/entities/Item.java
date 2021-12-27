@@ -8,10 +8,10 @@ import java.util.List;
 @NamedQueries(value =
         {
                 @NamedQuery(name = "ItemEntity.getAll",
-                        query = "SELECT im FROM ItemEntity im")
+                        query = "SELECT im FROM Item im")
 
         })
-public class ItemEntity {
+public class Item {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Integer id;
@@ -26,7 +26,7 @@ public class ItemEntity {
         private String category;
 
         @OneToMany(fetch = FetchType.EAGER)
-        private List<BorrowEntity> borrows;
+        private List<Borrow> borrows;
 
         public String getTitle() {
                 return title;

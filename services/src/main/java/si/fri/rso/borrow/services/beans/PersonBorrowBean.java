@@ -1,8 +1,8 @@
 package si.fri.rso.borrow.services.beans;
 
-import si.fri.rso.borrow.models.entities.BorrowEntity;
-import si.fri.rso.borrow.models.entities.ItemEntity;
-import si.fri.rso.borrow.models.entities.PersonEntity;
+import si.fri.rso.borrow.models.entities.Borrow;
+import si.fri.rso.borrow.models.entities.Item;
+import si.fri.rso.borrow.models.entities.Person;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -43,23 +43,23 @@ public class PersonBorrowBean {
     private EntityManager em;
 
 
-    public BorrowEntity createPersonReserve(Integer itemId, Integer userId) throws ParseException {
-        PersonEntity person = personBean.getPerson(userId);
-        ItemEntity item = itemBean.getItem(itemId);
+    public Borrow createPersonReserve(Integer itemId, Integer userId) throws ParseException {
+        Person person = personBean.getPerson(userId);
+        Item item = itemBean.getItem(itemId);
         return borrowBean.createReserve(person, item);
     }
 
-    public BorrowEntity createPersonBorrow(Integer itemId, Integer userId) {
-        PersonEntity person = personBean.getPerson(userId);
-        ItemEntity item = itemBean.getItem(itemId);
-        BorrowEntity entity= borrowBean.borrow(person,item);
+    public Borrow createPersonBorrow(Integer itemId, Integer userId) {
+        Person person = personBean.getPerson(userId);
+        Item item = itemBean.getItem(itemId);
+        Borrow entity= borrowBean.borrow(person,item);
         return entity;
     }
 
-    public BorrowEntity returnItem(Integer itemId, Integer userId) {
-        PersonEntity person = personBean.getPerson(userId);
-        ItemEntity item = itemBean.getItem(itemId);
-        BorrowEntity entity= borrowBean.returnItem(person,item);
+    public Borrow returnItem(Integer itemId, Integer userId) {
+        Person person = personBean.getPerson(userId);
+        Item item = itemBean.getItem(itemId);
+        Borrow entity= borrowBean.returnItem(person,item);
         return entity;
     }
 }

@@ -2,20 +2,20 @@ package si.fri.rso.borrow.models.entities;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
-import java.util.Date;
+
 @Entity
 @Table(name="borrow")
 @NamedQueries(value =
         {
-                @NamedQuery(name = "Borrow.getAll", query = "SELECT b FROM BorrowEntity b"),
-                @NamedQuery(name = "Borrow.getBorrowForPerson", query = "SELECT b FROM BorrowEntity b WHERE b.person = :person"),
-                @NamedQuery(name = "Borrow.getBorrowForItem", query = "SELECT b FROM BorrowEntity b WHERE b.item = :item"),
-                @NamedQuery(name = "Borrow.getBorrowedItems", query = "SELECT b FROM BorrowEntity b WHERE b.returned = false"),
-                @NamedQuery(name = "Borrow.getReservedOrBorrowedItems", query = "SELECT b FROM BorrowEntity b WHERE b.reserved = true OR b.returned=false"),
-                @NamedQuery(name = "Borrow.getPersonItem", query = "SELECT b FROM BorrowEntity b WHERE b.person = :person AND b.item =:item AND b.reserved =true")
+                @NamedQuery(name = "Borrow.getAll", query = "SELECT b FROM Borrow b"),
+                @NamedQuery(name = "Borrow.getBorrowForPerson", query = "SELECT b FROM Borrow b WHERE b.person = :person"),
+                @NamedQuery(name = "Borrow.getBorrowForItem", query = "SELECT b FROM Borrow b WHERE b.item = :item"),
+                @NamedQuery(name = "Borrow.getBorrowedItems", query = "SELECT b FROM Borrow b WHERE b.returned = false"),
+                @NamedQuery(name = "Borrow.getReservedOrBorrowedItems", query = "SELECT b FROM Borrow b WHERE b.reserved = true OR b.returned=false"),
+                @NamedQuery(name = "Borrow.getPersonItem", query = "SELECT b FROM Borrow b WHERE b.person = :person AND b.item =:item AND b.reserved =true")
         })
 
-public class BorrowEntity {
+public class Borrow {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,12 +36,12 @@ public class BorrowEntity {
     @JsonbTransient
     @ManyToOne
     @JoinColumn(name = "id_person")
-    private PersonEntity person;
+    private Person person;
 
     @JsonbTransient
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_item")
-    private ItemEntity item;
+    private Item item;
 
     public String getFrom_date() {
         return from_date;
@@ -59,19 +59,19 @@ public class BorrowEntity {
         this.to_date = to_date;
     }
 
-    public PersonEntity getPerson() {
+    public Person getPerson() {
         return person;
     }
 
-    public void setPerson(PersonEntity person) {
+    public void setPerson(Person person) {
         this.person = person;
     }
 
-    public ItemEntity getItem(){
+    public Item getItem(){
         return item;
     }
 
-    public void setItem(ItemEntity item){
+    public void setItem(Item item){
         this.item = item;
     }
 

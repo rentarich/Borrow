@@ -1,6 +1,6 @@
 package si.fri.rso.borrow.services.beans;
 
-import si.fri.rso.borrow.models.entities.PersonEntity;
+import si.fri.rso.borrow.models.entities.Person;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -36,8 +36,8 @@ public class PersonBean {
         return em.createNamedQuery("Person.getAll").getResultList();
     }
 
-    public PersonEntity getPerson(int id) {
-        PersonEntity person = em.find(PersonEntity.class, id);
+    public Person getPerson(int id) {
+        Person person = em.find(Person.class, id);
         return person;
     }
 }
