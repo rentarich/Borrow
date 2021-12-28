@@ -124,7 +124,7 @@ public class BorrowBean {
 
     @Transactional
     public Borrow borrow(Person person, Item item) {
-        List itemEntities = em.createNamedQuery("Borrow.getPersonItem").setParameter("person",person).setParameter("item", item).getResultList();
+        List itemEntities = em.createNamedQuery("Borrow.getPersonItem").setParameter("personid",person.getId()).setParameter("itemid", item.getId()).getResultList();
         if(itemEntities.size()>0) {
             Borrow e = (Borrow) itemEntities.get(0);
             e.setReturned(false);
@@ -174,13 +174,13 @@ public class BorrowBean {
 
                     b.setTo_date(returned_date);
                     Borrow borrows = new Borrow();
-                    borrows.setId(b.getId());
                     borrows.setFrom_date(from_date);
                     borrows.setTo_date(returned_date);
                     borrows.setReturned(true);
                     borrows.setPerson(b.getPerson());
                     borrows.setItem(b.getItem());
                     borrows.setReserved(false);
+                    em.remove(b);
                     em.merge(borrows);
                 }
             }
