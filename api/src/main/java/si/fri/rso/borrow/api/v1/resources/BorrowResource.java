@@ -7,9 +7,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.eclipse.microprofile.rest.client.RestClientBuilder;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import si.fri.rso.borrow.models.entities.Borrow;
 import si.fri.rso.borrow.services.beans.BorrowBean;
 import si.fri.rso.borrow.services.beans.PersonBorrowBean;
+import si.fri.rso.borrow.services.clients.MessageApi;
 import si.fri.rso.borrow.services.config.RestProperties;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -21,8 +24,11 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.util.List;
+import java.util.concurrent.CompletionStage;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -51,6 +57,10 @@ public class BorrowResource {
     @Context
     protected UriInfo uriInfo;
 
+    @Inject
+    @RestClient
+    protected MessageApi messageApi;
+
 
     @PostConstruct
     private void init() {
@@ -68,7 +78,7 @@ public class BorrowResource {
 
             })
     @Path("/{itemId}/{userId}/reserve")
-    public Response borrowItem(@PathParam("itemId") Integer itemId, @PathParam("userId") Integer userId) throws ParseException {
+    public Response borrowItem(@PathParam("itemId") Integer itemId, @PathParam("userId") Integer userId) throws ParseException, MalformedURLException {
         logger.info("starting borrowing ITEM with id"+itemId+" for user with id "+userId);
         if ((itemId == null || userId == null)) {
             logger.info("BAD REQUEST;  ITEM with id"+itemId+"already borrowed");
@@ -86,6 +96,20 @@ public class BorrowResource {
                 Borrow borrow = personBorrowBean.createPersonReserve(itemId, userId);
 
                 logger.info("Successfully borrowed borrowing ITEM with id"+itemId+" for user with id "+userId);
+
+                CompletionStage<String> stringCompletionStage =
+                        messageApi.sendMessage(borrow.getId());
+
+                stringCompletionStage.whenComplete((s, throwable) -> {
+                    //check if returned true or false
+                    logger.info(s.toString());
+                    logger.info("Succesfully sent message");
+                });
+                stringCompletionStage.exceptionally(throwable -> {
+                    logger.info("INTO BOTH ?");
+                    logger.info(throwable.getMessage());
+                    return throwable.getMessage();
+                });
                 return Response.status(Response.Status.CREATED).entity(borrow).build();
             }
         }

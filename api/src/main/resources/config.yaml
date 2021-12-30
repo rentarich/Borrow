@@ -30,6 +30,13 @@ kumuluzee:
         allow-origin: "http://localhost:4200"
         allow-subdomains: true
         supported-methods: "GET, POST, DELETE, HEAD, OPTIONS, PUT"
+
+  rest-client:
+    registrations:
+      - class: message
+        url: http://20.62.179.11/message/v1/borrow/
+        read-timeout: 5000
+
   logs:
     config-file: '<?xml version="1.0" encoding="UTF-8"?>
                                <Configuration name="comments">
