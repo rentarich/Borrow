@@ -25,6 +25,11 @@ kumuluzee:
     servlet:
       allow-generic-http-requests: false
       allow-origin: "*"
+    annotations:
+      my-resource:
+        allow-origin: "http://localhost:4200"
+        allow-subdomains: true
+        supported-methods: "GET, POST, DELETE, HEAD, OPTIONS, PUT"
   logs:
     config-file: '<?xml version="1.0" encoding="UTF-8"?>
                                <Configuration name="comments">
@@ -32,8 +37,8 @@ kumuluzee:
                                        <Console name="console" target="SYSTEM_OUT">
                                            <PatternLayout pattern="%d %p %marker %m %X %ex %n"/>
                                        </Console>
-                                       <Socket name="logstash" host="c9bdc69b-e1c8-45b8-843c-bd811a1d5835-ls.logit.io"
-                                       port="18974" protocol="udp">
+                                       <Socket name="logstash" host="bf305549-fb2a-4cc6-ac77-2a27465ac070-ls.logit.io"
+                                       port="22895" protocol="udp">
                                            <JSONLayout complete="false" compact="true" eventEol="true" charset="UTF-8" properties="true"/>
                                        </Socket>
                                    </Appenders>
@@ -48,4 +53,4 @@ kumuluzee:
 
 
 rest-properties:
-  maintenance: false
+  maintenance: working

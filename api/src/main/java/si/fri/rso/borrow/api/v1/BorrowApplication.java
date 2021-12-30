@@ -14,8 +14,8 @@ import javax.ws.rs.core.Application;
 @SecurityScheme(name = "openid-connect", type = SecuritySchemeType.OPENIDCONNECT,
         openIdConnectUrl = "http://auth-server-url/.well-known/openid-configuration")
 @ApplicationPath("v1")
-@OpenAPIDefinition(info = @Info(title = "CustomerApi", version = "v2.0.0", contact = @Contact(email = "rentarich@gmail.com"), license = @License(name="RentarichLicense")), servers = @Server(url = "http://20.102.34.64/catalog"), security
+@OpenAPIDefinition(info = @Info(title = "BorrowApi", version = "v1.0.0", contact = @Contact(email = "rentarich@gmail.com"), license = @License(name="RentarichLicense")), servers = @Server(url = "http://20.81.127.32/5556"), security
         = @SecurityRequirement(name = "openid-connect"))
-@CrossOrigin()
+@CrossOrigin(name = "my-resource")
 public class BorrowApplication extends Application {
 }
