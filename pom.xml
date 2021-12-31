@@ -92,11 +92,11 @@
                 <artifactId>kumuluzee-health</artifactId>
                 <version>${kumuluzee-health.version}</version>
             </dependency>
-<!--            <dependency>-->
-<!--                <groupId>com.kumuluz.ee.config</groupId>-->
-<!--                <artifactId>kumuluzee-config-consul</artifactId>-->
-<!--                <version>${kumuluzee-config.version}</version>-->
-<!--            </dependency>-->
+            <dependency>
+                <groupId>com.kumuluz.ee.config</groupId>
+                <artifactId>kumuluzee-config-consul</artifactId>
+                <version>${kumuluzee-config.version}</version>
+            </dependency>
 <!--            <dependency>-->
 <!--                <artifactId>kumuluzee-config-etcd</artifactId>-->
 <!--                <groupId>com.kumuluz.ee.config</groupId>-->

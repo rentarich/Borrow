@@ -64,8 +64,11 @@ public class BorrowResource {
 
     @PostConstruct
     private void init() {
+        logger.info(restProperties.getMaintenance());
+        logger.info(System.getenv().get("test-config"));
         httpClient = ClientBuilder.newClient();
         baseUrl = ConfigurationUtil.getInstance().get("kumuluzee.server.base-url").orElse("N/A");
+        logger.info(restProperties.getMaintenance());
     }
 
     @POST
@@ -96,20 +99,24 @@ public class BorrowResource {
                 Borrow borrow = personBorrowBean.createPersonReserve(itemId, userId);
 
                 logger.info("Successfully borrowed borrowing ITEM with id"+itemId+" for user with id "+userId);
+                String maintenance = restProperties.getMaintenance();
 
-                CompletionStage<String> stringCompletionStage =
-                        messageApi.sendMessage(borrow.getId());
+                if (maintenance.equals("working")) {
+                    CompletionStage<String> stringCompletionStage =
+                            messageApi.sendMessage(borrow.getId());
 
-                stringCompletionStage.whenComplete((s, throwable) -> {
-                    //check if returned true or false
-                    logger.info(s.toString());
-                    logger.info("Succesfully sent message");
-                });
-                stringCompletionStage.exceptionally(throwable -> {
-                    logger.info("INTO BOTH ?");
-                    logger.info(throwable.getMessage());
-                    return throwable.getMessage();
-                });
+                    stringCompletionStage.whenComplete((s, throwable) -> {
+                        //check if returned true or false
+                        logger.info(s.toString());
+                        logger.info("Succesfully sent message");
+                    });
+                    stringCompletionStage.exceptionally(throwable -> {
+                        logger.info(throwable.getMessage());
+                        return throwable.getMessage();
+                    });
+                } else {
+                    logger.info("Message about borrowing was not sent due to maintenance");
+                }
                 return Response.status(Response.Status.CREATED).entity(borrow).build();
             }
         }

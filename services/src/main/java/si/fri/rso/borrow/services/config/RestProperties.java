@@ -17,7 +17,7 @@ public class RestProperties {
         return maintenance;
     }
 
-    public void setMaintenance(String config_1_value) {
-        this.maintenance = config_1_value;
+    public void setMaintenance(String maintenance) {
+        this.maintenance = maintenance;
     }
 }

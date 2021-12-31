@@ -21,6 +21,9 @@ kumuluzee:
   openapi:
     ui:
       enabled: true
+  config:
+    consul:
+      agent: http://20.88.160.36
   cors-filter:
     servlet:
       allow-generic-http-requests: false
