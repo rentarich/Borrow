@@ -26,7 +26,7 @@ kumuluzee:
       agent: http://20.88.160.36
   cors-filter:
     servlet:
-      allow-generic-http-requests: false
+      allow-generic-http-requests: true
       allow-origin: "*"
     annotations:
       my-resource:
